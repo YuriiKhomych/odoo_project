@@ -34,6 +34,7 @@ Project Task Activity
     'depends': [
         'base',
         'project',
+        'mail',
     ],
     'external_dependencies': {
     },
@@ -43,6 +44,7 @@ Project Task Activity
         'view/task_view.xml',
         'security/ir.model.access.csv',
         'security/project_security.xml',
+        'data/project_activity_data.xml',
     ],
     'demo': [
     ],
