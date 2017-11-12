@@ -1,32 +1,37 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-# For copyright and license notices, see __openerp__.py file in module root
-# directory
-##############################################################################
+
 from odoo import models, api, fields, _
 from datetime import datetime
 import json
 
 
-class project_task_activity(models.Model):
+class ProjectTaskActivity(models.Model):
     _name = 'project.task.activity'
+    _inherit = ['mail.thread']
     _order = "sequence"
 
     task_id = fields.Many2one(
         'project.task',
         string='Task',
-        required=True, ondelete='cascade')
+        required=True,
+        ondelete='cascade',
+        track_visibility='always'
+    )
     project_id = fields.Many2one(
         'project.project',
         string='Project',
-        related='task_id.project_id', readonly=True, store=True)
-    name = fields.Char('Name', required=True)
+        related='task_id.project_id',
+        readonly=True,
+        store=True,
+        track_visibility='always'
+    )
+    name = fields.Char('Name', required=True, track_visibility='always')
     user_id = fields.Many2one('res.users', 'Responsible')
     planned_date = fields.Datetime('Planned Date')
     done_date = fields.Datetime('Done Date')
     state = fields.Selection(
         [('pending', 'Pending'), ('done', 'Done'), ('cancel', 'Cancel')],
-        'State', default='pending', required=True)
+        'State', default='pending', required=True, track_visibility='onchange')
     description = fields.Text('Description')
     sequence = fields.Integer(
         'Sequence',
@@ -46,8 +51,20 @@ class project_task_activity(models.Model):
     def action_cancel(self):
         self.state = 'cancel'
 
+    @api.multi
+    def _track_subtype(self, init_values):
+        if self.user_id and self.state == 'pending':  # assigned -> new
+            return 'project_task_activity.activity_mt_task_new'
+        elif self.state == 'done':
+            return 'project_task_activity.activity_mt_task_done'
+        elif self.state == 'pending':
+            return 'project_task_activity.activity_mt_task_new'
+        elif self.state:
+            return 'project_task_activity.activity_mt_task_stage'
+        return super(ProjectTaskActivity, self)._track_subtype(init_values)
 
-class project_task(models.Model):
+
+class ProjectTask(models.Model):
     _inherit = 'project.task'
 
     activity_ids = fields.One2many(
