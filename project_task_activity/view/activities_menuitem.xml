@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <odoo>
   <data>
 
@@ -6,7 +8,7 @@
       <field name="name">Activities</field>
       <field name="res_model">project.task.activity</field>
       <field name="view_type">form</field>
-      <field name="view_mode">tree,form</field>
+      <field name="view_mode">tree,form,kanban</field>
       <field name="view_id" ref=""/>
       <field name="search_view_id" ref=""/>
       <field name="domain">[]</field>
