@@ -85,7 +85,7 @@ class ProjectTask(models.Model):
         self.activities_progress = json.dumps(res)
 
 
-class project_project(models.Model):
+class Project(models.Model):
     _inherit = 'project.project'
 
     activity_ids = fields.One2many(
