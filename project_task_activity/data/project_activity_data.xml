@@ -1,0 +1,29 @@
+<odoo>
+  <data noupdate="1">
+    <record id="activity_mt_task_new" model="mail.message.subtype">
+            <field name="name">Activity Opened</field>
+            <field name="res_model">project.task.activity</field>
+            <field name="default" eval="False"/>
+            <field name="hidden" eval="False"/>
+            <field name="description">Activity opened</field>
+        </record>
+        <record id="activity_mt_task_cancelled" model="mail.message.subtype">
+            <field name="name">Activity Cancelled</field>
+            <field name="res_model">project.task.activity</field>
+            <field name="default" eval="False"/>
+            <field name="description">Activity Cancelled</field>
+        </record>
+        <record id="activity_mt_task_done" model="mail.message.subtype">
+            <field name="name">Activity Done</field>
+            <field name="res_model">project.task.activity</field>
+            <field name="default" eval="False"/>
+            <field name="description">Activity done</field>
+        </record>
+        <record id="activity_mt_task_stage" model="mail.message.subtype">
+            <field name="name">Stage Changed</field>
+            <field name="res_model">project.task.activity</field>
+            <field name="default" eval="False"/>
+            <field name="description">Stage changed</field>
+        </record>
+  </data>
+</odoo>
